@@ -6,35 +6,32 @@ using System.Threading.Tasks;
 
 namespace TRON
 {
-    public class NodoMoto
-    {
-        public NodoMoto Siguiente { get; set; }
-        public Nodo PosicionActual { get; set; }
-
-        public NodoMoto(Nodo posicion)
-        {
-            PosicionActual = posicion;
-            Siguiente = null;
-        }
-    }
-
     public class Moto
     {
-        public NodoMoto Cabeza { get; set; }
+        public Nodo Cabeza { get; set; }
+        public List<Nodo> Estela { get; private set; }
 
         public Moto(Nodo posicionInicial)
         {
-            Cabeza = new NodoMoto(posicionInicial);
+            Cabeza = posicionInicial;
+            Estela = new List<Nodo>();
+            Estela.Add(Cabeza);
         }
 
         public void Mover(Nodo nuevoNodo)
         {
-            NodoMoto nuevoNodoMoto = new NodoMoto(nuevoNodo);
-            nuevoNodoMoto.Siguiente = Cabeza;
-            Cabeza = nuevoNodoMoto;
+            // Desocupar el nodo más antiguo de la estela
+            Estela.Last().Ocupado = false;
+            Estela.RemoveAt(Estela.Count - 1);
 
-            // Opcional: Puedes eliminar el nodo más antiguo para mantener la longitud de la estela.
+            // Mover la cabeza al nuevo nodo
+            Cabeza = nuevoNodo;
+            Cabeza.Ocupado = true;
+
+            // Añadir la nueva cabeza a la estela
+            Estela.Insert(0, Cabeza);
         }
     }
+
 
 }

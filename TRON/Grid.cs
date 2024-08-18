@@ -22,45 +22,61 @@ namespace TRON
 
     public class Grid
     {
-        public Nodo[,] Nodos { get; private set; }
-        public int Filas { get; private set; }
-        public int Columnas { get; private set; }
+        public Nodo PrimerNodo { get; private set; }
 
         public Grid(int filas, int columnas)
         {
-            Filas = filas;
-            Columnas = columnas;
-            Nodos = new Nodo[filas, columnas];
-
-            CrearGrid();
-            ConectarNodos();
+            PrimerNodo = CrearGrid(filas, columnas);
         }
 
-        private void CrearGrid()
+        private Nodo CrearGrid(int filas, int columnas)
         {
-            for (int i = 0; i < Filas; i++)
-            {
-                for (int j = 0; j < Columnas; j++)
-                {
-                    Nodos[i, j] = new Nodo();
-                }
-            }
-        }
+            Nodo inicio = new Nodo();
+            Nodo filaActual = inicio;
 
-        private void ConectarNodos()
-        {
-            for (int i = 0; i < Filas; i++)
+            // Crear la primera fila
+            for (int j = 1; j < columnas; j++)
             {
-                for (int j = 0; j < Columnas; j++)
-                {
-                    if (i > 0) Nodos[i, j].Arriba = Nodos[i - 1, j];
-                    if (i < Filas - 1) Nodos[i, j].Abajo = Nodos[i + 1, j];
-                    if (j > 0) Nodos[i, j].Izquierda = Nodos[i, j - 1];
-                    if (j < Columnas - 1) Nodos[i, j].Derecha = Nodos[i, j + 1];
-                }
+                Nodo nuevoNodo = new Nodo();
+                filaActual.Derecha = nuevoNodo;
+                nuevoNodo.Izquierda = filaActual;
+                filaActual = nuevoNodo;
             }
+
+            Nodo filaArriba = inicio;
+
+            // Crear las filas subsecuentes
+            for (int i = 1; i < filas; i++)
+            {
+                Nodo nodoIzquierda = new Nodo();
+                filaArriba.Abajo = nodoIzquierda;
+                nodoIzquierda.Arriba = filaArriba;
+
+                filaActual = nodoIzquierda;
+
+                for (int j = 1; j < columnas; j++)
+                {
+                    Nodo nuevoNodo = new Nodo();
+                    filaActual.Derecha = nuevoNodo;
+                    nuevoNodo.Izquierda = filaActual;
+
+                    if (filaArriba.Derecha != null)
+                    {
+                        filaArriba = filaArriba.Derecha;
+                        filaActual.Arriba = filaArriba;
+                        filaArriba.Abajo = filaActual;
+                    }
+
+                    filaActual = nuevoNodo;
+                }
+
+                filaArriba = nodoIzquierda;
+            }
+
+            return inicio;
         }
     }
+
 
 
 
