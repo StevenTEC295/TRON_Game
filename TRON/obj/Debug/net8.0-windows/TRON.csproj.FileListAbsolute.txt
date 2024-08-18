@@ -1,0 +1,17 @@
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\bin\Debug\net8.0-windows\TRON.exe
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\bin\Debug\net8.0-windows\TRON.deps.json
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\bin\Debug\net8.0-windows\TRON.runtimeconfig.json
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\bin\Debug\net8.0-windows\TRON.dll
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\bin\Debug\net8.0-windows\TRON.pdb
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.Form1.resources
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.csproj.GenerateResource.cache
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.AssemblyInfoInputs.cache
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.AssemblyInfo.cs
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.csproj.CoreCompileInputs.cache
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.sourcelink.json
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.dll
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\refint\TRON.dll
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.pdb
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\TRON.genruntimeconfig.cache
+C:\Users\steve\OneDrive - Estudiantes ITCR\TEC\II Semestre\Algoritmos y Estructuras de Datos 1\Proyectos\Proyecto 1\TRON_Game\TRON\obj\Debug\net8.0-windows\ref\TRON.dll
