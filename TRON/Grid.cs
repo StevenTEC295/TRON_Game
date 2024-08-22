@@ -6,74 +6,69 @@ using System.Threading.Tasks;
 
 namespace TRON
 {
-    public class Nodo
+    public class Node
     {
-        public Nodo Arriba { get; set; }
-        public Nodo Abajo { get; set; }
-        public Nodo Izquierda { get; set; }
-        public Nodo Derecha { get; set; }
-        public bool Ocupado { get; set; } // Para indicar si la celda está ocupada por la moto o su estela
-
-        public Nodo()
-        {
-            Ocupado = false;
-        }
+        public PictureBox PictureBox { get; set; }
+        public Node Up { get; set; }
+        public Node Down { get; set; }
+        public Node Left { get; set; }
+        public Node Right { get; set; }
     }
 
-    public class Grid
+    public class LinkedListGrid
     {
-        public Nodo PrimerNodo { get; private set; }
+        private int gridRowsSize;
+        private int gridColumnsSize;
+        private int pictureBoxSize;
 
-        public Grid(int filas, int columnas)
+        public Node[,] Grid { get; private set; }
+
+        public LinkedListGrid(int gridRowsSize, int gridColumnsSize, int pictureBoxSize)
         {
-            PrimerNodo = CrearGrid(filas, columnas);
+            this.gridRowsSize = gridRowsSize;
+            this.gridColumnsSize = gridColumnsSize;
+            this.pictureBoxSize = pictureBoxSize;
+            Grid = new Node[gridRowsSize, gridColumnsSize];
+            InitializeGrid();
         }
 
-        private Nodo CrearGrid(int filas, int columnas)
+        private void InitializeGrid()
         {
-            Nodo inicio = new Nodo();
-            Nodo filaActual = inicio;
-
-            // Crear la primera fila
-            for (int j = 1; j < columnas; j++)
+            Image commonImage = Properties.Resources.bloque;
+            for (int row = 0; row < gridRowsSize; row++)
             {
-                Nodo nuevoNodo = new Nodo();
-                filaActual.Derecha = nuevoNodo;
-                nuevoNodo.Izquierda = filaActual;
-                filaActual = nuevoNodo;
-            }
-
-            Nodo filaArriba = inicio;
-
-            // Crear las filas subsecuentes
-            for (int i = 1; i < filas; i++)
-            {
-                Nodo nodoIzquierda = new Nodo();
-                filaArriba.Abajo = nodoIzquierda;
-                nodoIzquierda.Arriba = filaArriba;
-
-                filaActual = nodoIzquierda;
-
-                for (int j = 1; j < columnas; j++)
+                for (int col = 0; col < gridColumnsSize; col++)
                 {
-                    Nodo nuevoNodo = new Nodo();
-                    filaActual.Derecha = nuevoNodo;
-                    nuevoNodo.Izquierda = filaActual;
-
-                    if (filaArriba.Derecha != null)
+                    // Crear un nuevo nodo
+                    Node node = new Node
                     {
-                        filaArriba = filaArriba.Derecha;
-                        filaActual.Arriba = filaArriba;
-                        filaArriba.Abajo = filaActual;
+                        PictureBox = new PictureBox
+                        {
+                            Width = pictureBoxSize,
+                            Height = pictureBoxSize,
+                            Image= commonImage,
+                            SizeMode = PictureBoxSizeMode.StretchImage,
+                            BorderStyle = BorderStyle.FixedSingle,
+                            Location = new Point(col * pictureBoxSize, row * pictureBoxSize)
+                        }
+                    };
+
+                    // Añadir el nodo a la matriz
+                    Grid[row, col] = node;
+
+                    // Conectar con nodos vecinos si existen
+                    if (row > 0)
+                    {
+                        node.Up = Grid[row - 1, col];
+                        Grid[row - 1, col].Down = node;
                     }
-
-                    filaActual = nuevoNodo;
+                    if (col > 0)
+                    {
+                        node.Left = Grid[row, col - 1];
+                        Grid[row, col - 1].Right = node;
+                    }
                 }
-
-                filaArriba = nodoIzquierda;
             }
-
-            return inicio;
         }
     }
 
