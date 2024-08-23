@@ -16,7 +16,8 @@ namespace TRON
         {
             InitializeComponent();
             InitializeLinkedListGrid();
-           
+            this.Controls.AddRange(linkedListGrid.Grid.Cast<Node>().Select(n => n.PictureBox).ToArray());
+
         }
         private void InitializeLinkedListGrid()
         {
@@ -29,8 +30,12 @@ namespace TRON
                 this.Controls.Add(node.PictureBox);
             }
         }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            linkedListGrid.MoverMoto(keyData);
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
-      
 
 
     }

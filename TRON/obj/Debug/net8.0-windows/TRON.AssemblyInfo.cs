@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TRON")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ed4dcd6e960d03fec9e99e1050cd33c6f85a0e5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+310eb298c15c5638a402266fbf3ba4ffca440333")]
 [assembly: System.Reflection.AssemblyProductAttribute("TRON")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TRON")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

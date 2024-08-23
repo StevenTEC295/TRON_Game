@@ -22,6 +22,7 @@ namespace TRON
         private int pictureBoxSize;
 
         public Node[,] Grid { get; private set; }
+        public ListaEnlazadaMoto Moto { get; private set; }
 
         public LinkedListGrid(int gridRowsSize, int gridColumnsSize, int pictureBoxSize)
         {
@@ -30,11 +31,11 @@ namespace TRON
             this.pictureBoxSize = pictureBoxSize;
             Grid = new Node[gridRowsSize, gridColumnsSize];
             InitializeGrid();
+            InitializeMoto();
         }
 
         private void InitializeGrid()
         {
-            Image commonImage = Properties.Resources.bloque;
             for (int row = 0; row < gridRowsSize; row++)
             {
                 for (int col = 0; col < gridColumnsSize; col++)
@@ -46,7 +47,7 @@ namespace TRON
                         {
                             Width = pictureBoxSize,
                             Height = pictureBoxSize,
-                            Image= commonImage,
+                            Image = Properties.Resources.bloque,
                             SizeMode = PictureBoxSizeMode.StretchImage,
                             BorderStyle = BorderStyle.FixedSingle,
                             Location = new Point(col * pictureBoxSize, row * pictureBoxSize)
@@ -70,7 +71,48 @@ namespace TRON
                 }
             }
         }
+
+        private void InitializeMoto()
+        {
+            Moto = new ListaEnlazadaMoto(4); // Tamaño inicial de la estela
+
+            int headRow = gridRowsSize / 2;
+            int headCol = gridColumnsSize / 2;
+
+            // Agregar los segmentos de la estela en orden, comenzando desde la cola
+            Moto.Add(Grid[headRow, headCol - 2]); // Primer segmento de la estela (cola)
+            Moto.Add(Grid[headRow, headCol - 1]); // Segundo segmento de la estela
+            Moto.Add(Grid[headRow, headCol]);     // Cabeza de la moto
+        }
+
+        public void MoverMoto(Keys direccion)
+        {
+            Node currentNode = Moto.Head.GridNode;
+            Node nextNode = null;
+
+            switch (direccion)
+            {
+                case Keys.Up:
+                    nextNode = currentNode.Up;
+                    break;
+                case Keys.Down:
+                    nextNode = currentNode.Down;
+                    break;
+                case Keys.Left:
+                    nextNode = currentNode.Left;
+                    break;
+                case Keys.Right:
+                    nextNode = currentNode.Right;
+                    break;
+            }
+
+            if (nextNode != null)
+            {
+                Moto.Move(nextNode);
+            }
+        }
     }
+
 
 
 
