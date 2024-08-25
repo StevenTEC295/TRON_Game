@@ -19,9 +19,9 @@ namespace TRON
         public MotoNodo Tail { get; private set; }
         public int EstelaMaxima { get; private set; }
 
-        public ListaEnlazadaMoto(int estelaMaxima)
+        public ListaEnlazadaMoto()
         {
-            EstelaMaxima = estelaMaxima;
+            this.EstelaMaxima = 4;
         }
 
         // Método para añadir un nodo al inicio de la lista

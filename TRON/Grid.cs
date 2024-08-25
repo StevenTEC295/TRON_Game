@@ -74,34 +74,35 @@ namespace TRON
 
         private void InitializeMoto()
         {
-            Moto = new ListaEnlazadaMoto(4); // Tamaño inicial de la estela
+            Moto = new ListaEnlazadaMoto(); // Tamaño inicial de la estela
 
             int headRow = gridRowsSize / 2;
             int headCol = gridColumnsSize / 2;
 
             // Agregar los segmentos de la estela en orden, comenzando desde la cola
+            Moto.Add(Grid[headRow, headCol - 3]);
             Moto.Add(Grid[headRow, headCol - 2]); // Primer segmento de la estela (cola)
             Moto.Add(Grid[headRow, headCol - 1]); // Segundo segmento de la estela
             Moto.Add(Grid[headRow, headCol]);     // Cabeza de la moto
         }
 
-        public void MoverMoto(Keys direccion)
+        public void MoverMoto(Direction direccion)
         {
             Node currentNode = Moto.Head.GridNode;
             Node nextNode = null;
 
             switch (direccion)
             {
-                case Keys.Up:
+                case Direction.Up:
                     nextNode = currentNode.Up;
                     break;
-                case Keys.Down:
+                case Direction.Down:
                     nextNode = currentNode.Down;
                     break;
-                case Keys.Left:
+                case Direction.Left:
                     nextNode = currentNode.Left;
                     break;
-                case Keys.Right:
+                case Direction.Right:
                     nextNode = currentNode.Right;
                     break;
             }
