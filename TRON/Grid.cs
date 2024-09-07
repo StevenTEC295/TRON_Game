@@ -13,17 +13,24 @@ namespace TRON
         public Node Down { get; set; }
         public Node Left { get; set; }
         public Node Right { get; set; }
+
+        public bool IsTrail { get; set; } // Indica si este nodo es parte de una estela
+        public bool IsHead { get; set; }  // Indica si este nodo es la cabeza de una moto o bot
+
+        public Power Power { get; set; }
+
+        public Item Item { get; set; }
     }
 
     public class LinkedListGrid
     {
-        private int gridRowsSize;
-        private int gridColumnsSize;
+        public int gridRowsSize;
+        public int gridColumnsSize;
         private int pictureBoxSize;
 
         public Node[,] Grid { get; private set; }
         public ListaEnlazadaMoto Moto { get; private set; }
-
+        public List<Bot> Bots { get; private set; } // Lista de bots
         public LinkedListGrid(int gridRowsSize, int gridColumnsSize, int pictureBoxSize)
         {
             this.gridRowsSize = gridRowsSize;
@@ -32,7 +39,10 @@ namespace TRON
             Grid = new Node[gridRowsSize, gridColumnsSize];
             InitializeGrid();
             InitializeMoto();
+
         }
+
+
 
         private void InitializeGrid()
         {
@@ -86,10 +96,11 @@ namespace TRON
             Moto.Add(Grid[headRow, headCol]);     // Cabeza de la moto
         }
 
+
         public void MoverMoto(Direction direccion)
         {
             Node currentNode = Moto.Head.GridNode;
-            Node nextNode = null;
+            Node nextNode = currentNode.Right;
 
             switch (direccion)
             {
@@ -107,15 +118,21 @@ namespace TRON
                     break;
             }
 
-            if (nextNode != null)
+            // Verificamos si hay colisión antes de movernos
+            if (nextNode != null && Form1.CheckCollision(nextNode))
+            {
+                // Si es el jugador, termina el juego
+                Application.Exit(); // O cualquier lógica que uses para finalizar el juego
+            }
+            else if (nextNode != null)
             {
                 Moto.Move(nextNode);
             }
+            else
+            {
+                // Si el próximo nodo es null, significa que la moto salió del grid (colisión con la pared)
+                Application.Exit();
+            }
         }
     }
-
-
-
-
-
-}
+    }

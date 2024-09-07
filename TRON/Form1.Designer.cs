@@ -28,18 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            panelItems = new Panel();
+            panelPowers = new Panel();
             SuspendLayout();
+            // 
+            // panelItems
+            // 
+            panelItems.BackColor = SystemColors.ActiveCaptionText;
+            panelItems.Location = new Point(904, -2);
+            panelItems.Name = "panelItems";
+            panelItems.Size = new Size(75, 958);
+            panelItems.TabIndex = 0;
+            // 
+            // panelPowers
+            // 
+            panelPowers.BackColor = SystemColors.ActiveCaptionText;
+            panelPowers.Location = new Point(1, 891);
+            panelPowers.Name = "panelPowers";
+            panelPowers.Size = new Size(902, 65);
+            panelPowers.TabIndex = 1;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 953);
+            Controls.Add(panelPowers);
+            Controls.Add(panelItems);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Panel panelItems;
+        private Panel panelPowers;
     }
 }

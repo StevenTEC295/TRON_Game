@@ -16,60 +16,94 @@ namespace TRON
     public class ListaEnlazadaMoto
     {
         public MotoNodo Head { get; private set; }
-        public MotoNodo Tail { get; private set; }
+        //public MotoNodo Tail { get; private set; }
         public int EstelaMaxima { get; private set; }
+
+        public int Velocidad;
+        public int Estela_size;
+        public int Combustible;
+        private Items itemsQueue;
+        private Stack powersStack;
+        private System.Windows.Forms.Timer itemTimer;
 
         public ListaEnlazadaMoto()
         {
             this.EstelaMaxima = 4;
+            this.itemsQueue = new Items(10);
+            this.powersStack = new Stack(10);
+
+            // Inicializar el temporizador para aplicar ítems
+            this.itemTimer = new System.Windows.Forms.Timer();
+            this.itemTimer.Interval = 1000; // Intervalo de 1 segundo
+            //this.itemTimer.Tick += ItemTimer_Tick;
+            this.itemTimer.Start();
         }
+
 
         // Método para añadir un nodo al inicio de la lista
         public void Add(Node gridNode)
         {
-            // Si ya hay una cabeza, actualizamos su imagen a la de la estela
+            // Si ya hay una cabeza, marcamos la cabeza antigua como parte de la estela
             if (Head != null)
             {
-                Head.GridNode.PictureBox.Image = Properties.Resources.estela;
+                Head.GridNode.IsHead = false;  // La cabeza anterior deja de ser la cabeza
+                Head.GridNode.IsTrail = true;  // Y ahora es parte de la estela
             }
 
             MotoNodo newNodo = new MotoNodo { GridNode = gridNode };
-            if (Head == null)
-            {
-                Head = Tail = newNodo;
-            }
-            else
-            {
-                newNodo.Next = Head;
-                Head = newNodo;
-            }
+            newNodo.GridNode.IsHead = true;  // El nuevo nodo es la nueva cabeza
+            newNodo.GridNode.IsTrail = false;  // La cabeza no es parte de la estela
 
-            // Actualizar la imagen del nuevo nodo al de la moto
-            gridNode.PictureBox.Image = Properties.Resources.moto;
+            // Añadir el nuevo nodo al principio de la lista
+            newNodo.Next = Head;
+            Head = newNodo;
         }
+
+
+
+
+
+
 
         // Método para mover la moto, manteniendo la longitud de la estela
         public void Move(Node newGridNode)
         {
-            Add(newGridNode);
-
-            // Mantener la longitud de la estela
-            MotoNodo current = Head;
-            int count = 1;
-            while (current.Next != null)
+            if (newGridNode != null)
             {
-                if (count == EstelaMaxima)
+                newGridNode.PictureBox.Image = Properties.Resources.moto; // Imagen de la cabeza de la moto
+
+                Add(newGridNode);
+
+                // Mantener la longitud de la estela
+                MotoNodo current = Head;
+                int count = 1;
+
+                while (current.Next != null)
                 {
-                    // Restaurar la imagen del último segmento a 'bloque'
-                    current.Next.GridNode.PictureBox.Image = Properties.Resources.bloque;
-                    current.Next = null;
-                    Tail = current;
-                    break;
+                    if (count == EstelaMaxima)
+                    {
+                        // Restaurar la imagen del último segmento a 'bloque'
+                        current.Next.GridNode.PictureBox.Image = Properties.Resources.bloque;
+                        current.Next.GridNode.IsTrail = false;
+                        current.Next = null;
+                        break;
+                    }
+                    else
+                    {
+                        current.Next.GridNode.IsTrail = true;
+                        current.Next.GridNode.PictureBox.Image = Properties.Resources.estela; // Imagen de la estela
+                    }
+
+                    current = current.Next;
+                    count++;
                 }
-                current = current.Next;
-                count++;
+            }
+            else { 
+                Application.Exit();
             }
         }
+
+
     }
 
 
