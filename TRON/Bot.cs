@@ -72,11 +72,7 @@ namespace TRON
 
         public void Die()
         {
-            // Lógica para eliminar al bot cuando muere (colisión)
-            /*for( int segment = 0; segment >= Estela.EstelaMaxima; segment++)
-            {
-                Estela.Head.GridNode.PictureBox.Image = Properties.Resources.bloque;
-            }*/
+            
             Console.WriteLine("Colisión");
 
             Estela = null;  // Eliminar la estela
