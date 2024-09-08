@@ -18,16 +18,17 @@ namespace TRON
             this.grid = grid;
             this.Estela = new ListaEnlazadaMoto();
             this.currentDirection = (Direction)new Random().Next(0, 4);
+
             random = new Random();
             InitializeEstela();
         }
         private void InitializeEstela()
         {
             // Inicializar la estela del bot con 3 nodos
-            int startRow = random.Next(0, grid.gridRowsSize);
-            int startCol = random.Next(0, grid.gridColumnsSize);
+            int startRow = random.Next(5, grid.gridRowsSize);
+            int startCol = random.Next(10, grid.gridColumnsSize);
 
-            // Asegúrate de que no esté en la misma posición que otros jugadores o estelas
+            
             Estela.Add(grid.Grid[startRow, startCol]);
             Estela.Add(grid.Grid[startRow, startCol - 1]);
             Estela.Add(grid.Grid[startRow, startCol - 2]);
@@ -36,12 +37,12 @@ namespace TRON
 
         public void Move(Node newGridNode)
         {
-            // Asignar la imagen de la cabeza del bot a la nueva posición
+            
             newGridNode.PictureBox.Image = Properties.Resources.moto; // Imagen de la cabeza del bot
 
             Estela.Add(newGridNode);
 
-            // Mantener la longitud de la estela del bot
+            
             MotoNodo current = Estela.Head;
             int count = 1;
 
@@ -72,12 +73,14 @@ namespace TRON
         public void Die()
         {
             // Lógica para eliminar al bot cuando muere (colisión)
-            for( int segment = 0; segment >= Estela.EstelaMaxima; segment++)
+            /*for( int segment = 0; segment >= Estela.EstelaMaxima; segment++)
             {
                 Estela.Head.GridNode.PictureBox.Image = Properties.Resources.bloque;
-            }
+            }*/
+            Console.WriteLine("Colisión");
 
             Estela = null;  // Eliminar la estela
+            
         }
     }
 

@@ -18,10 +18,12 @@ namespace TRON
         public bool IsHead { get; set; }  // Indica si este nodo es la cabeza de una moto o bot
 
         public Power Power { get; set; }
-
         public Item Item { get; set; }
-    }
 
+        // Nuevas propiedades
+        public int GridRow { get; set; }
+        public int GridColumn { get; set; }
+    }
     public class LinkedListGrid
     {
         public int gridRowsSize;
@@ -61,7 +63,9 @@ namespace TRON
                             SizeMode = PictureBoxSizeMode.StretchImage,
                             BorderStyle = BorderStyle.FixedSingle,
                             Location = new Point(col * pictureBoxSize, row * pictureBoxSize)
-                        }
+                        },
+                        GridRow = row,          // Asignar el índice de fila
+                        GridColumn = col       // Asignar el índice de columna
                     };
 
                     // Añadir el nodo a la matriz
@@ -81,6 +85,7 @@ namespace TRON
                 }
             }
         }
+
 
         private void InitializeMoto()
         {
@@ -135,4 +140,8 @@ namespace TRON
             }
         }
     }
-    }
+
+
+}
+
+

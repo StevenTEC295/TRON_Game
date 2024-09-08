@@ -14,6 +14,8 @@ namespace TRON {
         Right
     }
 
+    
+    
 
 
     public partial class Form1 : Form
@@ -23,49 +25,38 @@ namespace TRON {
                                              // Tamaño del grid NxN
         private const int pictureBoxSize = 23; // Tamaño de cada PictureBox
         private LinkedListGrid linkedListGrid;
-        private List<Bot> bots;
+        public List<Bot> bots;
         public System.Windows.Forms.Timer botTimer;
 
         private Direction currentDirection;
         public System.Windows.Forms.Timer moveTimer;
         private System.Windows.Forms.Timer itemGenerationTimer;
-        /*private void GeneratePower()
-        {
-            Power hyperSpeedPower = new Power("HyperSpeed", moto =>
-            {
-                moto.Velocidad += 5;
-            });
-
-            linkedListGrid.AddPowerToRandomPosition(hyperSpeedPower);
-        }*/
+        
         public Form1()
         {
             InitializeComponent();
             InitializeLinkedListGrid();
+            InitializeBots();
             this.Controls.AddRange(linkedListGrid.Grid.Cast<Node>().Select(n => n.PictureBox).ToArray());
 
             currentDirection = Direction.Right; // Dirección inicial
 
-            InitializeBots();
+            
 
-            // Configurar el temporizador para mover la moto automáticamente
-            moveTimer = new System.Windows.Forms.Timer();
-            moveTimer.Interval = 200; // Intervalo de movimiento en milisegundos
-            moveTimer.Tick += MoveTimer_Tick;
-            moveTimer.Start();
+            
 
-            /*// Configurar el temporizador para la generación de ítems
-            itemGenerationTimer = new System.Windows.Forms.Timer();
-            itemGenerationTimer.Interval = 5000; // Intervalo de generación de ítems en milisegundos (por ejemplo, cada 5 segundos)
-            itemGenerationTimer.Tick += ItemGenerationTimer_Tick;
-            itemGenerationTimer.Start();
-            GenerateItem();*/
+           
 
             // Timer para mover los bots
             botTimer = new System.Windows.Forms.Timer();
             botTimer.Interval = 500; // Intervalo en milisegundos
             botTimer.Tick += BotTimer_Tick;
             botTimer.Start();
+            // Configurar el temporizador para mover la moto automáticamente
+            moveTimer = new System.Windows.Forms.Timer();
+            moveTimer.Interval = 200; // Intervalo de movimiento en milisegundos
+            moveTimer.Tick += MoveTimer_Tick;
+            moveTimer.Start();
 
         }
         private void InitializeBots()
@@ -87,18 +78,22 @@ namespace TRON {
 
         private void BotTimer_Tick(object sender, EventArgs e)
         {
-            foreach (var bot in bots)
+            
+            var botsToMove = new List<Bot>(bots);
+
+            foreach (var bot in botsToMove)
             {
                 MoveBot(bot);
             }
         }
 
 
+
         public static bool CheckCollision(Node nextNode)
         {
             // Si el nodo es parte de una estela o una cabeza, hay colisión
             // nextNode.IsTrail || nextNode.IsHead;
-            return false;
+            return nextNode.IsTrail || nextNode.IsHead;
         }
 
 
@@ -186,56 +181,117 @@ namespace TRON {
             //linkedListGrid.AddItemToRandomPosition(new Item("Fuel", (moto) => moto.Combustible += 10));
             //linkedListGrid.AddPowerToRandomPosition(new Power("HyperSpeed", (moto) => moto.Velocidad += 2));
         }
-        public void MoveBot(Bot bot)
-        {
-            Node currentNode = bot.Estela.Head.GridNode;
-            Direction randomDirection = GetRandomDirection();
-            Node nextNode = GetNextNode(currentNode, randomDirection);
 
-            if (CheckCollision(nextNode))
+
+        private void MoveBot(Bot bot)
+        {
+            if (bot.Estela == null || bot.Estela.Head == null)
             {
-                // Si hay colisión, el bot muere
-                bot.Die();
+                return; // No mover si no hay estela o cabeza.
+            }
+
+            Node botNode = bot.Estela.Head.GridNode;
+            Direction followDirection = GetDirectionToFollow(botNode, linkedListGrid.Moto.Head.GridNode);
+            Node nextNode = GetNextNode(botNode, followDirection);
+
+            if (nextNode != null && !CheckCollision(nextNode))
+            {
+                bot.Move(nextNode);
+                bot.currentDirection = followDirection; // Actualiza la última dirección del bot
             }
             else
             {
-                bot.Move(nextNode);
+                RemoveBot(bot); // El bot muere si colisiona con su estela o con otro objeto
             }
         }
 
-        private Direction GetRandomDirection()
+
+
+
+
+
+
+        // Método que obtiene una dirección válida para el bot
+        private Direction GetDirectionToFollow(Node botNode, Node motoNode)
         {
-            Random random = new Random();
-            int randomValue = random.Next(4); // Hay 4 direcciones posibles
+            if (botNode == null || motoNode == null)
+                return Direction.Right; // Valor por defecto si uno de los nodos es nulo
 
-            switch (randomValue)
+            int botRow = botNode.GridRow; 
+            int botCol = botNode.GridColumn; 
+
+            int motoRow = motoNode.GridRow;
+            int motoCol = motoNode.GridColumn;
+
+            if (Math.Abs(botRow - motoRow) > Math.Abs(botCol - motoCol))
             {
-                case 0:
-                    return Direction.Up;
-                case 1:
-                    return Direction.Down;
-                case 2:
-                    return Direction.Left;
-                case 3:
-                    return Direction.Right;
-                default:
-                    return Direction.Right;
+                
+                return botRow < motoRow ? Direction.Down : Direction.Up;
+            }
+            else
+            {
+                
+                return botCol < motoCol ? Direction.Right : Direction.Left;
             }
         }
+
+        public void RemoveBot(Bot bot)
+        {
+            if (bot.Estela == null || bot.Estela.Head == null)
+                return;
+
+            Node currentNode = bot.Estela.Head.GridNode;
+            while (currentNode != null)
+            {
+                // Marca el nodo como no parte de una estela
+                currentNode.IsTrail = false;
+
+                // Mueve al siguiente nodo en la estela
+                currentNode = GetNextNode(currentNode, bot.currentDirection);
+            }
+
+            // Elimina el bot de la lista de bots
+            bots.Remove(bot);
+
+            // Opcional: hacer algo especial si solo queda un bot, etc.
+            if (bots.Count == 0)
+            {
+                // Aquí podrías mostrar un mensaje o terminar el juego si es necesario
+                Win();
+            }
+        }
+
+
+
+        public void Win()
+        {
+            // Detener los temporizadores
+            moveTimer.Stop();
+            botTimer.Stop();
+
+            // Crear y mostrar el formulario de Victoria
+            GameOver winForm = new GameOver("You Win");
+            winForm.Show();
+
+            // Cerrar el formulario principal
+            //this.Close();
+        }
+
 
         public void GameOver()
         {
-            // Detener los temporizadores y mostrar mensaje de game over
+            // Detener los temporizadores
             moveTimer.Stop();
             botTimer.Stop();
-            MessageBox.Show("¡Juego terminado!");
-            Application.Exit();
+            
+
+            // Crear y mostrar el formulario de Game Over
+            GameOver gameOverForm = new GameOver("Game Over");
+            gameOverForm.Show();
+
+            // Cerrar el formulario principal
+            //this.Close();
         }
-
-
-
-
-
 
     }
 }
